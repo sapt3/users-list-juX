@@ -1,7 +1,9 @@
 var request = require("request")
 var http = require('http');
 
+var total;
 var url = "https://the-ju-app.firebaseio.com/users.json"
+var port = process.env.PORT || 8080;
 
 var key = [];
 var count = [];
@@ -15,6 +17,7 @@ request({
         var json = jsonArr[i];
         key.push(json.department);
       }
+      total = key.length;
       var result = foo(key);
       var dept = result[0];
       var count = result[1];
@@ -32,11 +35,12 @@ request({
           '\n<meta charset="utf-8">\n<title>Users List according to Department</title>\n' +
           '<style type="text/css">* {font-family:arial, sans-serif;}</style>\n' +
           '\n\n<h1>Users List according to Department for juX</h1>\n' +
+          '<p> The total users are ' + total + 
            '<ul>' + data + '</ul>' +
           '\n\n');
         res.end();
-      }).listen(8888, '127.0.0.1');
-      console.log('Server running at http://127.0.0.1:8888');
+      }).listen(port);
+      console.log(`Server running`);
 
       }
     })
